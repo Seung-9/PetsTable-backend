@@ -31,7 +31,8 @@ public class AppleOAuthUserProvider {
 
         Claims claims = appleJwtParser.parsePublicKeyAndGetClaims(identityToken, publicKey);
         validateClaims(claims);
-        return new AppleSocialMemberResponse(claims.getSubject());
+
+        return new AppleSocialMemberResponse(claims.getSubject(), claims.get("email", String.class));
     }
 
     private void validateClaims(Claims claims) {

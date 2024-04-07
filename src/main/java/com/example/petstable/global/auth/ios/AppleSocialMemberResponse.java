@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class AppleSocialMemberResponse {
 
     private String socialId;
+    private String email;
 }
