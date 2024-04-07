@@ -23,7 +23,7 @@ public class AppleOAuthUserProvider {
     private final PublicKeyGenerator publicKeyGenerator;
     private final AppleClaimsValidator appleClaimsValidator;
 
-    public AppleSociaMemberResponse getApplePlatformMember(String identityToken) {
+    public AppleSocialMemberResponse getApplePlatformMember(String identityToken) {
         Map<String, String> headers = appleJwtParser.parseHeaders(identityToken);
         ApplePublicKeys applePublicKeys = appleClient.getApplePublicKeys();
 
@@ -31,7 +31,7 @@ public class AppleOAuthUserProvider {
 
         Claims claims = appleJwtParser.parsePublicKeyAndGetClaims(identityToken, publicKey);
         validateClaims(claims);
-        return new AppleSociaMemberResponse(claims.getSubject());
+        return new AppleSocialMemberResponse(claims.getSubject());
     }
 
     private void validateClaims(Claims claims) {

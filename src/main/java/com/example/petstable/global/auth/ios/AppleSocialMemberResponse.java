@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class AppleSociaMemberResponse {
+public class AppleSocialMemberResponse {
 
     private String socialId;
 }
