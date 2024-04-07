@@ -23,7 +23,6 @@ public class MemberEntity extends BaseTimeEntity {
     private Long id;
 
     private String email; // 이메일
-    private String password; // 비밀번호
     private String nickName; // 닉네임
 
     private String imageUrl;
