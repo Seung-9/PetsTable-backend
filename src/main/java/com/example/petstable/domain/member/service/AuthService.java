@@ -23,16 +23,17 @@ public class AuthService {
     private final AppleOAuthUserProvider appleOAuthUserProvider;
 
     public AppleTokenResponse appleOAuthLogin(AppleLoginRequest request) {
-        AppleSocialMemberResponse appleSocialMember =
-                appleOAuthUserProvider.getApplePlatformMember(request.getToken());
+        AppleSocialMemberResponse appleSocialMember = appleOAuthUserProvider.getApplePlatformMember(request.getToken());
 
-        return memberRepository.findIdBySocialTypeAndSocialId(SocialType.APPLE, appleSocialMember.getSocialId())
+        String socialId = appleSocialMember.getSocialId();
+
+        return memberRepository.findIdBySocialTypeAndSocialId(SocialType.APPLE, socialId)
                 .map(memberId -> {
                     MemberEntity findMember = memberRepository.findById(memberId).orElseThrow(
                             () -> new ApiException(MEMBER_NOT_FOUND));
                     String token = issueToken(findMember);
-                    return new AppleTokenResponse(token, findMember.getEmail(), true);
-                }).orElseGet(() -> new AppleTokenResponse(null, appleSocialMember.getEmail(), false));
+                    return new AppleTokenResponse(token, findMember.getEmail(), true, socialId);
+                }).orElseGet(() -> new AppleTokenResponse(null, appleSocialMember.getEmail(), false, socialId));
     }
 
     private String issueToken(final MemberEntity findMember) {

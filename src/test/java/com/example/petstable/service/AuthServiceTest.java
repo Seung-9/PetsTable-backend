@@ -36,16 +36,18 @@ public class AuthServiceTest {
     @DisplayName("가입이 안 되어있으면 이메일 값을 보내고 isRegistered 값을 false로")
     void appleOAuthNotRegistered() {
         String expected = "ssg@apple.com";
+        String socialId = "20191476";
 
         when(appleOAuthUserProvider.getApplePlatformMember(anyString()))
-                .thenReturn(new AppleSocialMemberResponse("20191476", expected));
+                .thenReturn(new AppleSocialMemberResponse(socialId, expected));
 
         AppleTokenResponse actual = authService.appleOAuthLogin(new AppleLoginRequest("token"));
 
         Assertions.assertAll(
                 () -> assertThat(actual.getToken()).isNull(),
                 () -> assertThat(actual.getEmail()).isEqualTo(expected),
-                () -> assertThat(actual.getIsRegistered()).isFalse()
+                () -> assertThat(actual.getIsRegistered()).isFalse(),
+                () -> assertThat(actual.getSocialId()).isEqualTo(socialId)
         );
     }
 
@@ -53,26 +55,28 @@ public class AuthServiceTest {
     @DisplayName("이미 가입된 경우 토큰, 이메일, isRegistered 값을 true로")
     void appleOAuthRegistered() {
         String expected = "ssg@apple.com";
+        String socialId = "20191476";
 
         MemberEntity member = MemberEntity.builder()
                 .email("ssg@apple.com")
                 .nickName("Seung-9")
                 .imageUrl(null)
                 .socialType(SocialType.APPLE)
-                .socialId("20191476")
+                .socialId(socialId)
                 .build();
 
         memberRepository.save(member);
 
         when(appleOAuthUserProvider.getApplePlatformMember(anyString()))
-                .thenReturn(new AppleSocialMemberResponse("20191476", expected));
+                .thenReturn(new AppleSocialMemberResponse(socialId, expected));
 
         AppleTokenResponse actual = authService.appleOAuthLogin(new AppleLoginRequest("token"));
 
         assertAll(
                 () -> assertThat(actual.getToken()).isNotNull(),
                 () -> assertThat(actual.getEmail()).isEqualTo(expected),
-                () -> assertThat(actual.getIsRegistered()).isTrue()
+                () -> assertThat(actual.getIsRegistered()).isTrue(),
+                () -> assertThat(actual.getSocialId()).isEqualTo(socialId)
         );
     }
 }
