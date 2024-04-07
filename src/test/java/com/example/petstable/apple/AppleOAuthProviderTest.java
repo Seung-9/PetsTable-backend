@@ -8,6 +8,7 @@ import com.example.petstable.global.auth.ios.publickey.ApplePublicKeys;
 import com.example.petstable.global.auth.ios.publickey.PublicKeyGenerator;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import java.security.*;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -48,6 +50,7 @@ public class AppleOAuthProviderTest {
         String identityToken = Jwts.builder()
                 .setHeaderParam("kid", "W31ORKA2AFB1")
                 .claim("id", "12345678")
+                .claim("email", "ssg9505fj22@naver.com")
                 .setIssuer("iss")
                 .setIssuedAt(now)
                 .setAudience("aud")
@@ -61,6 +64,9 @@ public class AppleOAuthProviderTest {
         when(appleClaimsValidator.isValid(any())).thenReturn(true);
 
         AppleSocialMemberResponse actual = appleOAuthUserProvider.getApplePlatformMember(identityToken);
-        assertThat(actual.getSocialId()).isEqualTo(expected);
+        assertAll(
+                () -> assertThat(actual.getSocialId()).isEqualTo(expected),
+                () -> assertThat(actual.getEmail()).isEqualTo("ssg9505fj22@naver.com")
+        );
     }
 }
