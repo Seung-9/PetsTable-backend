@@ -14,6 +14,8 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
 
     Optional<MemberEntity> findByNickName(String nickName);
 
+    Optional<MemberEntity> findBySocialTypeAndSocialId(SocialType socialType, String socialId);
+
     @Query("select m.id from MemberEntity m where m.socialType = :socialType and m.socialId = :socialId")
     Optional<Long> findIdBySocialTypeAndSocialId(@Param("socialType") SocialType socialType, @Param("socialId") String socialId);
 }

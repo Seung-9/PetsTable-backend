@@ -44,6 +44,8 @@ public class MemberEntity extends BaseTimeEntity {
         }
     }
 
+
+    // 회원가입 - 이메일, 닉네임으로
     public void registerOAuthMember(String email, String nickname) {
         validateNickname(nickname);
         this.nickName = nickname;
