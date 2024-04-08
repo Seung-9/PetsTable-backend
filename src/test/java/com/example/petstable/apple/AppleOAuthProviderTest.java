@@ -63,7 +63,7 @@ public class AppleOAuthProviderTest {
         when(publicKeyGenerator.generatePublicKey(any(), any())).thenReturn(publicKey);
         when(appleClaimsValidator.isValid(any())).thenReturn(true);
 
-        AppleSocialMemberResponse actual = appleOAuthUserProvider.getApplePlatformMember(identityToken);
+        AppleSocialMemberResponse actual = appleOAuthUserProvider.getAppleMember(identityToken);
         assertAll(
                 () -> assertThat(actual.getSocialId()).isEqualTo(expected),
                 () -> assertThat(actual.getEmail()).isEqualTo("ssg9505fj22@naver.com")

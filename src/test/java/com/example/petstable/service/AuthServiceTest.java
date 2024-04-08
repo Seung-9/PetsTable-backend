@@ -1,12 +1,12 @@
 package com.example.petstable.service;
 
 
+import com.example.petstable.domain.member.dto.response.TokenResponse;
 import com.example.petstable.domain.member.entity.MemberEntity;
 import com.example.petstable.domain.member.entity.SocialType;
 import com.example.petstable.domain.member.repository.MemberRepository;
 import com.example.petstable.domain.member.service.AuthService;
 import com.example.petstable.global.auth.dto.request.AppleLoginRequest;
-import com.example.petstable.global.auth.dto.response.AppleTokenResponse;
 import com.example.petstable.global.auth.ios.AppleOAuthUserProvider;
 import com.example.petstable.global.auth.ios.AppleSocialMemberResponse;
 import org.junit.jupiter.api.Assertions;
@@ -38,13 +38,13 @@ public class AuthServiceTest {
         String expected = "ssg@apple.com";
         String socialId = "20191476";
 
-        when(appleOAuthUserProvider.getApplePlatformMember(anyString()))
+        when(appleOAuthUserProvider.getAppleMember(anyString()))
                 .thenReturn(new AppleSocialMemberResponse(socialId, expected));
 
-        AppleTokenResponse actual = authService.appleOAuthLogin(new AppleLoginRequest("token"));
+        TokenResponse actual = authService.appleOAuthLogin(new AppleLoginRequest("token"));
 
         Assertions.assertAll(
-                () -> assertThat(actual.getToken()).isNull(),
+                () -> assertThat(actual.getAccessToken()).isNull(),
                 () -> assertThat(actual.getEmail()).isEqualTo(expected),
                 () -> assertThat(actual.getIsRegistered()).isFalse(),
                 () -> assertThat(actual.getSocialId()).isEqualTo(socialId)
@@ -60,22 +60,46 @@ public class AuthServiceTest {
         MemberEntity member = MemberEntity.builder()
                 .email("ssg@apple.com")
                 .nickName("Seung-9")
-                .imageUrl(null)
                 .socialType(SocialType.APPLE)
                 .socialId(socialId)
                 .build();
 
         memberRepository.save(member);
 
-        when(appleOAuthUserProvider.getApplePlatformMember(anyString()))
+        when(appleOAuthUserProvider.getAppleMember(anyString()))
                 .thenReturn(new AppleSocialMemberResponse(socialId, expected));
 
-        AppleTokenResponse actual = authService.appleOAuthLogin(new AppleLoginRequest("token"));
+        TokenResponse actual = authService.appleOAuthLogin(new AppleLoginRequest("token"));
 
         assertAll(
-                () -> assertThat(actual.getToken()).isNotNull(),
+                () -> assertThat(actual.getAccessToken()).isNotNull(),
                 () -> assertThat(actual.getEmail()).isEqualTo(expected),
                 () -> assertThat(actual.getIsRegistered()).isTrue(),
+                () -> assertThat(actual.getSocialId()).isEqualTo(socialId)
+        );
+    }
+
+    @Test
+    @DisplayName("Apple OAuth 로그인 시 등록은 완료됐지만 회원가입 실패하면 ( 닉네임이 없으면 ) isRegistered 값을 false로 보낸다")
+    void appleOAuthRegisteredButNotMocacongMember() {
+        String expected = "ssg@apple.com";
+        String socialId = "1234321";
+
+        MemberEntity member = MemberEntity.builder()
+                .email("ssg@apple.com")
+                .socialType(SocialType.APPLE)
+                .socialId(socialId)
+                .build();
+        memberRepository.save(member);
+
+        when(appleOAuthUserProvider.getAppleMember(anyString())).thenReturn(new AppleSocialMemberResponse(socialId, expected));
+
+        TokenResponse actual = authService.appleOAuthLogin(new AppleLoginRequest("token"));
+
+        assertAll(
+                () -> assertThat(actual.getAccessToken()).isNotNull(),
+                () -> assertThat(actual.getEmail()).isEqualTo(expected),
+                () -> assertThat(actual.getIsRegistered()).isFalse(),
                 () -> assertThat(actual.getSocialId()).isEqualTo(socialId)
         );
     }

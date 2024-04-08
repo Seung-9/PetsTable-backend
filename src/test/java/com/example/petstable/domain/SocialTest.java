@@ -1,7 +1,7 @@
 package com.example.petstable.domain;
 
 import com.example.petstable.domain.member.entity.SocialType;
-import com.example.petstable.global.exception.ApiException;
+import com.example.petstable.global.exception.PetsTableException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,6 +24,6 @@ public class SocialTest {
         SocialType expected = SocialType.NOMAL;
 
         Assertions.assertThatThrownBy(() -> SocialType.from(null))
-                .isInstanceOf(ApiException.class);
+                .isInstanceOf(PetsTableException.class);
     }
 }

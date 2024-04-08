@@ -1,6 +1,6 @@
 package com.example.petstable.global.auth.ios.jwt;
 
-import com.example.petstable.global.exception.ApiException;
+import com.example.petstable.global.exception.PetsTableException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
@@ -32,17 +32,17 @@ public class AppleJwtParser {
 
             return OBJECT_MAPPER.readValue(decodedHeader, Map.class);
         } catch (JsonProcessingException | ArrayIndexOutOfBoundsException e) {
-            throw new ApiException(INVALID_ID_TOKEN);
+            throw new PetsTableException(INVALID_ID_TOKEN.getStatus(), INVALID_ID_TOKEN.getMessage(), 401);
         }
     }
 
     public Claims parsePublicKeyAndGetClaims(String idToken, PublicKey publicKey) {
         try {
-            return Jwts.parser().setSigningKey(publicKey).build().parseClaimsJws(idToken).getBody();
+            return Jwts.parser().setSigningKey(publicKey).parseClaimsJws(idToken).getBody();
         } catch (ExpiredJwtException e) {
-            throw new ApiException(EXPIRED_ID_TOKEN);
+            throw new PetsTableException(EXPIRED_ID_TOKEN.getStatus(), EXPIRED_ID_TOKEN.getMessage(), 401);
         } catch (UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
-            throw new ApiException(INVALID_ID_TOKEN);
+            throw new PetsTableException(INVALID_ID_TOKEN.getStatus(), INVALID_ID_TOKEN.getMessage(), 401);
         }
     }
 }

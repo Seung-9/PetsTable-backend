@@ -1,4 +1,4 @@
-package com.example.petstable.global.auth.dto.response;
+package com.example.petstable.domain.member.dto.response;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -6,10 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@AllArgsConstructor @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class AppleTokenResponse {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+public class TokenResponse {
 
-    private String token;
+    private String accessToken;
     private String email;
     private Boolean isRegistered;
     private String socialId;

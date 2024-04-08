@@ -5,7 +5,7 @@ import com.example.petstable.domain.member.dto.response.OAuthMemberSignUpRespons
 import com.example.petstable.domain.member.entity.MemberEntity;
 import com.example.petstable.domain.member.entity.SocialType;
 import com.example.petstable.domain.member.repository.MemberRepository;
-import com.example.petstable.global.exception.ApiException;
+import com.example.petstable.global.exception.PetsTableException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +23,7 @@ public class MemberService {
     public OAuthMemberSignUpResponse signUpByOAuthMember(OAuthMemberSignUpRequest request) {
         SocialType socialType = SocialType.from(request.getSocialType());
         MemberEntity findMember = memberRepository.findBySocialTypeAndSocialId(socialType, request.getSocialId())
-                .orElseThrow(() -> new ApiException(MEMBER_NOT_FOUND));
+                .orElseThrow(() -> new PetsTableException(MEMBER_NOT_FOUND.getStatus(), MEMBER_NOT_FOUND.getMessage(), 404));
 
         findMember.registerOAuthMember(request.getEmail(), request.getNickname());
         return new OAuthMemberSignUpResponse(findMember.getId());

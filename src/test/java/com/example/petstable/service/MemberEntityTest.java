@@ -44,4 +44,16 @@ public class MemberEntityTest {
                 () -> assertThat(member.getNickName()).isEqualTo("Seung")
         );
     }
+
+    @Test
+    @DisplayName("닉네임이 없는 경우 회원가입 절차가 진행되지 않은 것으로 처리")
+    void isRegisterMember() {
+        MemberEntity member = MemberEntity.builder()
+                .email("ssg@apple.com")
+                .socialType(SocialType.APPLE)
+                .socialId("123456789")
+                .build();
+
+        assertThat(member.isRegisteredOAuthMember()).isFalse();
+    }
 }

@@ -5,8 +5,7 @@ import com.example.petstable.domain.member.entity.MemberEntity;
 import com.example.petstable.domain.member.entity.SocialType;
 import com.example.petstable.domain.member.repository.MemberRepository;
 import com.example.petstable.domain.member.service.MemberService;
-import com.example.petstable.global.exception.ApiException;
-import org.assertj.core.api.Assertions;
+import com.example.petstable.global.exception.PetsTableException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +61,6 @@ public class MemberServiceTest {
         OAuthMemberSignUpRequest request = new OAuthMemberSignUpRequest(null, "Seung", SocialType.APPLE.getValue(), "invalid");
 
         assertThatThrownBy(() -> memberService.signUpByOAuthMember(request))
-                .isInstanceOf(ApiException.class);
+                .isInstanceOf(PetsTableException.class);
     }
 }

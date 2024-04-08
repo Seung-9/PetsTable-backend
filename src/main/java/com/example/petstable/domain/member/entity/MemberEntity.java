@@ -1,6 +1,6 @@
 package com.example.petstable.domain.member.entity;
 
-import com.example.petstable.global.exception.ApiException;
+import com.example.petstable.global.exception.PetsTableException;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,7 +29,7 @@ public class MemberEntity extends BaseTimeEntity {
 
     @Enumerated(value = EnumType.STRING)
     private SocialType socialType; // NAVER, KAKAO, APPLE
-    private String socialId;
+    private String socialId; // Claims 에 담긴 subject
 
     @Enumerated(value = EnumType.STRING)
     private RoleType roleType; // ADMIN, MEMBER
@@ -40,7 +40,7 @@ public class MemberEntity extends BaseTimeEntity {
     // 닉네임 검증
     private void validateNickname(String nickname) {
         if (!NICKNAME_REGEX.matcher(nickname).matches()) {
-            throw new ApiException(INVALID_NICKNAME);
+            throw new PetsTableException(INVALID_NICKNAME.getStatus(), INVALID_NICKNAME.getMessage(), 400);
         }
     }
 

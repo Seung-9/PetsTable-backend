@@ -1,7 +1,7 @@
 package com.example.petstable.apple;
 
 import com.example.petstable.global.auth.ios.jwt.AppleJwtParser;
-import com.example.petstable.global.exception.ApiException;
+import com.example.petstable.global.exception.PetsTableException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -47,7 +47,7 @@ public class AppleJwtParserTest {
     @DisplayName("Apple identity token 을 올바르지 않은 형식으로 파싱하면 예외 발생")
     void parseHeadersWithInvalidToken() {
         assertThatThrownBy(() -> appleJwtParser.parseHeaders("invalidToken"))
-                .isInstanceOf(ApiException.class);
+                .isInstanceOf(PetsTableException.class);
     }
 
     @Test
@@ -98,6 +98,6 @@ public class AppleJwtParserTest {
                 .compact();
 
         assertThatThrownBy(() ->
-                appleJwtParser.parsePublicKeyAndGetClaims(identityToken, publicKey)).isInstanceOf(ApiException.class);
+                appleJwtParser.parsePublicKeyAndGetClaims(identityToken, publicKey)).isInstanceOf(PetsTableException.class);
     }
 }
