@@ -25,14 +25,14 @@ public class MemberEntity extends BaseTimeEntity {
     private String email; // 이메일
     private String nickName; // 닉네임
 
-    private String imageUrl;
+    private String image_url;
 
     @Enumerated(value = EnumType.STRING)
-    private SocialType socialType; // NAVER, KAKAO, APPLE
+    private SocialType socialType; // APPLE, GOOGLE
     private String socialId; // Claims 에 담긴 subject
 
     @Enumerated(value = EnumType.STRING)
-    private RoleType roleType; // ADMIN, MEMBER
+    private RoleType role; // ADMIN, MEMBER
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -43,7 +43,6 @@ public class MemberEntity extends BaseTimeEntity {
             throw new PetsTableException(INVALID_NICKNAME.getStatus(), INVALID_NICKNAME.getMessage(), 400);
         }
     }
-
 
     // 회원가입 - 이메일, 닉네임으로
     public void registerOAuthMember(String email, String nickname) {

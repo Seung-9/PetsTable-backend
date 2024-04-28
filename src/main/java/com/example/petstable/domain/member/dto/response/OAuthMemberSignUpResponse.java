@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class OAuthMemberSignUpResponse {
 
     private Long id;
+    private String nickName;
 }

@@ -19,7 +19,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @Operation(summary = "OAuth 회원가입")
-    @PostMapping("/oauth")
+    @PostMapping
     public ResponseEntity<OAuthMemberSignUpResponse> signUp(@RequestBody @Valid OAuthMemberSignUpRequest request) {
         OAuthMemberSignUpResponse response = memberService.signUpByOAuthMember(request);
         return ResponseEntity.ok(response);

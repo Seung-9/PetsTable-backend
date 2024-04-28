@@ -26,6 +26,6 @@ public class MemberService {
                 .orElseThrow(() -> new PetsTableException(MEMBER_NOT_FOUND.getStatus(), MEMBER_NOT_FOUND.getMessage(), 404));
 
         findMember.registerOAuthMember(request.getEmail(), request.getNickname());
-        return new OAuthMemberSignUpResponse(findMember.getId());
+        return new OAuthMemberSignUpResponse(findMember.getId(), findMember.getNickName());
     }
 }
