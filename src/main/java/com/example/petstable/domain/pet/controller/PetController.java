@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "반려동물 관련 컨트롤러")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/{memberId}/pets")
+@RequestMapping("/pets")
 public class PetController {
 
     private final PetService petService;

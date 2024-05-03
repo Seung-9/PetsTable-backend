@@ -1,9 +1,13 @@
 package com.example.petstable.domain.pet.dto.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Builder
+@Getter
+@AllArgsConstructor
 public class PetInfoResponse {
 
     private String type; // 종 ( 강아지, 고양이 )

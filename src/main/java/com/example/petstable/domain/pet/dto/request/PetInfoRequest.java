@@ -1,7 +1,6 @@
 package com.example.petstable.domain.pet.dto.request;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Getter
@@ -17,8 +16,9 @@ public class PetInfoRequest {
     @Size(min = 1, max = 15, message = "이름 입력은 1자에서 15자 사이입니다.")
     private String name; // 이름
 
-    @NotEmpty(message = " 나이 입력은 필수입니다.")
-    @Size(min = 1, max = 2, message = "나이 입력은 1자에서 2자 사이입니다.")
+    @NotNull(message = "나이 입력은 필수입니다.")
+    @Min(value = 0, message = "나이는 0보다 크거나 같아야 합니다.")
+    @Max(value = 99, message = "나이는 99보다 작아야 합니다.")
     private int age; // 나이
 
     @NotEmpty(message = "크기 입력은 필수입니다. ( 예시 : 소형, 중형, 대형 )")
