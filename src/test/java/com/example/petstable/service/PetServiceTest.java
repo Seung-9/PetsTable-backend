@@ -45,7 +45,7 @@ public class PetServiceTest {
                 .build();
 
         memberRepository.save(member);
-        OAuthMemberSignUpRequest request = new OAuthMemberSignUpRequest(null, "Seung", SocialType.APPLE.getValue(), socialId);
+        OAuthMemberSignUpRequest request = new OAuthMemberSignUpRequest("Seung", SocialType.APPLE.getValue(), socialId);
         memberService.signUpByOAuthMember(request);
 
         PetInfoRequest petRequest =PetInfoRequest.builder()
@@ -73,7 +73,7 @@ public class PetServiceTest {
                 .build();
 
         memberRepository.save(member);
-        OAuthMemberSignUpRequest request = new OAuthMemberSignUpRequest(null, "Seung", SocialType.APPLE.getValue(), socialId);
+        OAuthMemberSignUpRequest request = new OAuthMemberSignUpRequest("Seung", SocialType.APPLE.getValue(), socialId);
         memberService.signUpByOAuthMember(request);
 
         PetInfoRequest petRequest =PetInfoRequest.builder()

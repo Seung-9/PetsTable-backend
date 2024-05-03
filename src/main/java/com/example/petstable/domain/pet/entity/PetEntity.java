@@ -42,7 +42,6 @@ public class PetEntity extends BaseTimeEntity {
 
     // 생성 메서드
     public static PetEntity createPet(PetInfoRequest petInfoRequest) {
-
         return PetEntity.builder()
                 .type(petInfoRequest.getType())
                 .name(petInfoRequest.getName())

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.example.petstable.global.exception.message.MemberMessage.*;
-import static com.example.petstable.global.exception.message.PetMessage.*;
 
 @Service
 @RequiredArgsConstructor
@@ -26,8 +25,6 @@ public class PetService {
     public PetInfoResponse registerPet(Long memberId, PetInfoRequest petInfoRequest) {
         MemberEntity memberEntity = memberRepository.findById(memberId)
                 .orElseThrow(() -> new PetsTableException(MEMBER_NOT_FOUND.getStatus(), MEMBER_NOT_FOUND.getMessage(), 404));
-
-        validateDuplicatePet(petInfoRequest);
 
         PetEntity petEntity = PetEntity.createPet(petInfoRequest);
 
@@ -43,12 +40,4 @@ public class PetService {
                 .nickName(memberEntity.getNickName())
                 .build();
     }
-
-
-    private void validateDuplicatePet(PetInfoRequest petInfoRequest) {
-        if (petRepository.existsByName(petInfoRequest.getName())) {
-            throw new PetsTableException(PET_EXISTS.getStatus(), PET_EXISTS.getMessage(), 409);
-        }
-    }
-
 }
