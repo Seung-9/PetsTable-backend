@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,30 +29,31 @@ public class PetController {
     @Operation(summary = "반려동물 추가")
     @PostMapping()
     @SecurityRequirement(name = "JWT")
-    public PetsTableApiResponse<PetRegisterResponse> addPet(@RequestBody @Valid PetRegisterRequest pet, @LoginUserId Long memberId) {
+    public ResponseEntity<PetRegisterResponse> addPet(@RequestBody @Valid PetRegisterRequest pet, @LoginUserId Long memberId) {
 
         PetRegisterResponse response = petService.registerPet(memberId, pet);
 
-        return PetsTableApiResponse.createResponse(response, CREATE_SUCCESS);
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "반려동물 상세 정보 조회")
     @GetMapping("/{petId}")
-    public PetsTableApiResponse<PetInfoResponse> getPetInfo(@LoginUserId Long memberId, @PathVariable(name = "petId") Long petId) {
+    @SecurityRequirement(name = "JWT")
+    public ResponseEntity<PetInfoResponse> getPetInfo(@LoginUserId Long memberId, @PathVariable(name = "petId") Long petId) {
 
         PetInfoResponse response = petService.getMyPetInfo(memberId, petId);
 
-        return PetsTableApiResponse.createResponse(response, GET_SUCCESS);
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "반려동물 전체 조회")
     @GetMapping("/myPets")
     @SecurityRequirement(name = "JWT")
-    public PetsTableApiResponse<List<PetInfoResponse>> getAllPets(@LoginUserId Long memberId) {
+    public ResponseEntity<List<PetInfoResponse>> getAllPets(@LoginUserId Long memberId) {
 
         List<PetInfoResponse> response = petService.getAllMyPets(memberId);
 
-        return PetsTableApiResponse.createResponse(response, GET_ALL_SUCCESS);
+        return ResponseEntity.ok(response);
     }
 
 }

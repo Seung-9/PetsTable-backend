@@ -8,7 +8,6 @@ import com.example.petstable.domain.pet.dto.response.PetRegisterResponse;
 import com.example.petstable.domain.pet.entity.PetEntity;
 import com.example.petstable.domain.pet.repository.PetRepository;
 import com.example.petstable.global.exception.PetsTableException;
-import com.example.petstable.global.exception.message.PetMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
