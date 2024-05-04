@@ -6,7 +6,7 @@ import lombok.*;
 @Getter
 @Builder
 @AllArgsConstructor @NoArgsConstructor
-public class PetInfoRequest {
+public class PetRegisterRequest {
 
     @NotEmpty(message = "종 입력은 필수입니다. ( 예시 : 강아지 or 고양이)")
     @Size(min = 3, max = 3, message = "종은 반드시 3자여야 합니다.")
